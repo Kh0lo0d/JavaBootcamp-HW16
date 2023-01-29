@@ -1,0 +1,70 @@
+create database store;
+
+create table countries(
+
+    code int primary key,
+    name varchar(20) unique ,
+continent_name varchar(20)not null
+);
+
+create table user(
+id int primary key,
+ full_name varchar(20),
+ email varchar(20) unique ,
+ gender char(1) check ( gender='m'or gender='f' ),
+ date_of_birth varchar(15),
+ created_at datetime default date_of_birth,
+ country_code int,
+ foreign key (country_code)references countries(code)
+);
+
+create table orders(
+id int primary key ,
+user_id int ,
+foreign key (user_id)references user(id),
+status varchar(6) check ( status='start' or status='finish' ),
+created_at datetime
+);
+
+
+
+create table products(
+    id int primary key,
+    name varchar(10) not null ,
+    price int default 0,
+    status varchar(10)check ( status='valid' or status='expired'),
+    created_at datetime
+
+);
+
+create table order_products(
+    order_id int,
+    foreign key (order_id)references orders(id),
+    product_id int,
+    foreign key (product_id)references products(id),
+    quantity int default 0
+);
+
+insert into countries values ('15','Riyadh','aaaa');
+insert into user values ('12','Rana Mohammed','rana@hotmail.com','f','2000-05-04','2000-05-04','15');
+insert into orders values ('22','12','finish','1999-11-06');
+insert into products values ('99','car','50000','valid','2015-02-08');
+insert into products values ('100','airplane','100000','valid','2018-02-08');
+insert into products values ('200','trr','4555','valid','2016-02-08');
+
+
+
+insert into order_products values ('22','99','100');
+
+update countries
+SET  name='Jeddah',continent_name='qwe'
+WHERE code='15';
+
+delete from products
+WHERE id ='100';
+
+select * from user;
+select * from countries;
+select * from orders;
+select * from order_products;
+select * from products;
